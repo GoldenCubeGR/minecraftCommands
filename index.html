@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Minecraft Commands Community</title>
+</head>
+<body>
+    <div id="Header">
+        <div id="navBar">
+            <ul>
+                <li><a href="#Header" class="active">Home</a></li>
+                <li><a href="#About">About Us</a></li>
+                <li><a href="#Communities">Communities</a></li>
+                <li><a href="#contributors">Contributors</a></li>
+                <li><a href="#admins">Admins</a></li>
+                <li><a href="#latest-message-container">Latest News</a></li>
+            </ul>
+        </div>
+        
+        <img src="icon.png" alt="Minecraft Commands Logo">
+        <h2>Minecraft Commands</h2>
+    </div>
+
+    <div id="About">
+        <h3>About Us</h3>
+        <p>Welcome to Minecraft Commands! We're a community centred around vanilla Minecraft commands and mapmaking</p>
+    </div>
+
+    <div id="Communities">
+        <h3>Join Our Communities</h3>
+        <a href="https://www.reddit.com/r/MinecraftCommands/" class="community-link" target="_blank">
+            <i class="fab fa-reddit fa-fw fa-xl margin-right-md" style="color: #FF4500;"></i> Reddit Community
+        </a>
+        <a href="https://discord.com/invite/9wNcfsH" class="community-link" target="_blank">
+            <i class="fab fa-discord fa-fw fa-xl margin-right-md" style="color: #5865F2;"></i> Discord Server
+        </a>
+    </div>
+
+    <!-- New contributors section -->
+    <div id="contributors">
+        <h1>Contributors</h1>
+        <div id="contributors-list">Loading...</div>
+    </div>
+
+    <!-- New admins section -->
+    <div id="admins">
+        <h3>Discord & Reddit Administrators</h3>
+        <div id="admins-list">
+            <!-- Reddit moderators -->
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="Plagiatus">
+                <a href="https://reddit.com/u/Plagiatus" target="_blank">u/Plagiatus</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="Skylinerw">
+                <a href="https://reddit.com/u/Skylinerw" target="_blank">u/Skylinerw</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="cheeeeeeeeze">
+                <a href="https://reddit.com/u/cheeeeeeeeze" target="_blank">u/cheeeeeeeeze</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="Ersatz_77">
+                <a href="https://reddit.com/u/Ersatz_77" target="_blank">u/Ersatz_77</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="SirBenet">
+                <a href="https://reddit.com/u/SirBenet" target="_blank">u/SirBenet</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="dragonmaster95">
+                <a href="https://reddit.com/u/dragonmaster95" target="_blank">u/dragonmaster95</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="Bezatrix">
+                <a href="https://reddit.com/u/Bezatrix" target="_blank">u/Bezatrix</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="Arcensoth">
+                <a href="https://reddit.com/u/Arcensoth" target="_blank">u/Arcensoth</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="MinecraftCommands">
+                <a href="https://reddit.com/u/MinecraftCommands" target="_blank">u/MinecraftCommands</a>
+            </div>
+            <div class="admin">
+                <img src="https://www.redditstatic.com/avatars/avatar_default_01_FF4500.png" alt="MCCConduit">
+                <a href="https://reddit.com/u/MCCConduit" target="_blank">u/MCCConduit</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="latest-message-container">
+        <h1>Latest News</h1>
+        <div id="latest-message">
+            <!-- Latest message will be injected here by JavaScript -->
+            Loading...
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        async function fetchContributors() {
+            try {
+                const response = await fetch('https://api.github.com/repos/MinecraftCommands/commanderbot-py/contributors');
+                const contributors = await response.json();
+                const contributorsList = document.getElementById('contributors-list');
+
+                if (contributors.length === 0) {
+                    contributorsList.innerHTML = 'No contributors found.';
+                } else {
+                    contributorsList.innerHTML = contributors.map(contributor => `
+                        <div class="contributor">
+                            <img src="${contributor.avatar_url}" alt="${contributor.login}">
+                            <a href="${contributor.html_url}" target="_blank">${contributor.login}</a>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error fetching contributors:', error);
+                document.getElementById('contributors-list').innerHTML = 'Failed to load contributors.';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            async function fetchLatestMessage() {
+                try {
+                    const response = await fetch('https://11282cce-724e-4c10-8d74-f95f34559fd6-00-16mgz2p5psqk2.spock.replit.dev/latestnew');
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    const messageContainer = document.getElementById('latest-message');
+
+                    if (data) {
+                        // Check if md5 function is available
+                        if (typeof md5 === 'function') {
+                            const avatarUrl = 'https://www.gravatar.com/avatar/' + md5(data.author.trim().toLowerCase());
+                            messageContainer.innerHTML = `
+                                <div class="message">
+                                    <img src="${avatarUrl}" alt="${data.author}" class="message-avatar">
+                                    <div class="message-content">
+                                        <div class="message-author">${data.author}</div>
+                                        <div class="message-text">${marked.parse(data.content)}</div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            messageContainer.innerHTML = 'Error: md5 function is not available.';
+                        }
+                    } else {
+                        messageContainer.innerHTML = 'No message available.';
+                    }
+                } catch (error) {
+                    console.error('Error fetching the latest message:', error);
+                    document.getElementById('latest-message').innerHTML = 'Failed to load the latest message.';
+                }
+            }
+
+
+            fetchLatestMessage();
+            setInterval(fetchLatestMessage, 60000); // Refresh every 60 seconds
+        });
+        fetchContributors();
+    </script>
+
+    <script>
+    document.querySelectorAll('#navBar a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default anchor click behavior
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+
+            // Highlight the active link
+            document.querySelectorAll('#navBar a').forEach(link => link.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

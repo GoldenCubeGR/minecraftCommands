@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wiki</title>
+    <link rel="stylesheet" href="wikistyle.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <ul id="nav-links">
+                <!-- Navigation links will be dynamically created here -->
+            </ul>
+        </nav>
+        
+        <div class="content" id="page-content">
+            <!-- Page content will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.sidebar a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the default anchor click behavior
+    
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+    
+                // Highlight the active link
+                document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+    <script src="wikiscript.js"></script>
+
+</body>
+</html>

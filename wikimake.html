@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        textarea {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .anchor-section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Wiki Manager</h1>
+        </header>
+        <main>
+            <section id="wiki-editor">
+                <h2>Edit Wiki</h2>
+                <div>
+                    <label for="page-title">Page Title:</label>
+                    <input type="text" id="page-title" placeholder="Page Title">
+                </div>
+                <div>
+                    <label for="page-content">Page Content:</label>
+                    <textarea id="page-content" rows="10" placeholder="Page Content"></textarea>
+                </div>
+                <div>
+                    <label for="page-anchors">Anchor Links (optional):</label>
+                    <textarea id="page-anchors" rows="5" placeholder="Anchor Links: name|ID (one per line)"></textarea>
+                </div>
+                <button id="add-page">Add Page</button>
+            </section>
+            <section id="wiki-list">
+                <h2>Wiki Pages</h2>
+                <ul id="pages-list"></ul>
+            </section>
+            <section id="export">
+                <h2>Export Wiki</h2>
+                <button id="export-wiki">Export as JSON</button>
+                <pre id="export-output"></pre>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const wikiPages = {};
+
+        // Add page function
+        document.getElementById('add-page').addEventListener('click', () => {
+            const title = document.getElementById('page-title').value.trim();
+            const content = document.getElementById('page-content').value.trim();
+            const anchors = document.getElementById('page-anchors').value.trim();
+
+            if (title && content) {
+                // Format anchors into a proper string for export
+                const formattedAnchors = anchors
+                    .split('\n')
+                    .map(anchor => anchor.trim())
+                    .filter(anchor => anchor)
+                    .join('\n');
+
+                wikiPages[title] = { content, anchors: formattedAnchors };
+                updatePageList();
+                clearInputs();
+            } else {
+                alert('Please enter both title and content.');
+            }
+        });
+
+        // Update page list
+        function updatePageList() {
+            const pagesList = document.getElementById('pages-list');
+            pagesList.innerHTML = '';
+
+            for (const [title] of Object.entries(wikiPages)) {
+                const li = document.createElement('li');
+                li.textContent = title;
+                pagesList.appendChild(li);
+            }
+        }
+
+        // Clear input fields
+        function clearInputs() {
+            document.getElementById('page-title').value = '';
+            document.getElementById('page-content').value = '';
+            document.getElementById('page-anchors').value = '';
+        }
+
+        // Export wiki data
+        document.getElementById('export-wiki').addEventListener('click', () => {
+            const output = document.getElementById('export-output');
+            output.textContent = JSON.stringify(wikiPages, null, 2);
+        });
+    </script>
+</body>
+</html>
