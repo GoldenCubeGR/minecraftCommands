@@ -6,12 +6,7 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-h2, h3, h4 {
-    margin: 0;
-    color: #00ACED;
+    align-items: flex-start; /* Align items to the start */
 }
 
 /* Header Styles */
@@ -118,7 +113,6 @@ h2, h3, h4 {
 
 /* Content Styles */
 .content {
-    flex: 1;
     padding: 20px;
     background-color: white;
     overflow-y: auto;
@@ -243,6 +237,21 @@ h2, h3, h4 {
 
 .contributor a:hover, .admin a:hover {
     text-decoration: underline;
+}
+
+/* Highlighted Text */
+.highlight-blue {
+    /* background-color: #E0F7FF; /* Light blue background */
+    color: #0366d6; /* Darker blue text color */
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+/* Underline Text with Yellow */
+.underline {
+    text-decoration: underline;
+    text-decoration-color: yellow; /* Yellow underline */
+    text-decoration-thickness: 2px; /* Adjust thickness as needed */
 }
 
 /* Responsive Design */

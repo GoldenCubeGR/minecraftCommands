@@ -12,7 +12,7 @@
         <div id="navBar">
             <ul>
                 <li><a href="#Header" class="active">Home</a></li>
-                <li><a href="/wiki">Wiki</a></li>
+                <li><a href="/wiki" id="wiki">Wiki</a></li>
                 <li><a href="#About">About Us</a></li>
                 <li><a href="#Communities">Communities</a></li>
                 <li><a href="#contributors">Contributors</a></li>
@@ -26,9 +26,10 @@
     </div>
 
     <div id="About">
-        <h3>About Us</h3>
-        <p>Welcome to Minecraft Commands! We're a community centred around vanilla Minecraft commands and mapmaking</p>
+        <h3>About This Page</h3>
+        <p>Welcome to Minecraft Commands! Please note that this page is independently created and maintained. It is not affiliated with or endorsed by the official Minecraft community or its administrators. This site is dedicated to vanilla Minecraft commands and mapmaking, created by enthusiasts for enthusiasts.</p>
     </div>
+
 
     <div id="Communities">
         <h3>Join Our Communities</h3>
@@ -171,19 +172,25 @@
     </script>
 
     <script>
-    document.querySelectorAll('#navBar a').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent the default anchor click behavior
+        document.querySelectorAll('#navBar a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                // Skip the script if the anchor's ID is 'wiki'
+                if (this.id === 'wiki') {
+                    return;
+                }
 
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
+                e.preventDefault(); // Prevent the default anchor click behavior
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Highlight the active link
+                document.querySelectorAll('#navBar a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
             });
-
-            // Highlight the active link
-            document.querySelectorAll('#navBar a').forEach(link => link.classList.remove('active'));
-            this.classList.add('active');
         });
-    });
-</script>
+    </script>
+
 </body>
 </html>
